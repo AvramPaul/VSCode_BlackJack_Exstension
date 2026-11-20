@@ -31,6 +31,7 @@ describe('RegistryWatcher', () => {
   beforeEach(() => {
     dir = fs.mkdtempSync(path.join(os.tmpdir(), 'devjack-reg-'));
     events = [];
+    logs.length = 0;
     w = new RegistryWatcher([dir, path.join(dir, 'missing')], (e) => events.push(e), { log: (m) => logs.push(m) });
   });
   afterEach(() => {
@@ -69,6 +70,12 @@ describe('RegistryWatcher', () => {
     w.scan();
     expect(logs.filter((l) => l.includes('format not recognized'))).toHaveLength(1);
     expect(w.recognized).toBe(false);
+  });
+
+  it("doesn't warn about a new session's file that has no status yet", () => {
+    write('9.json', '{"sessionId":"s9","entrypoint":"cli"}', 1_000_000);
+    w.scan();
+    expect(logs.filter((l) => l.includes('format not recognized'))).toHaveLength(0);
   });
 
   it('skips a half-written file and reads it on the next change', () => {

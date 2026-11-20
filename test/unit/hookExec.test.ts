@@ -64,8 +64,10 @@ describe(`hook command (${flavor})`, () => {
     expect(JSON.stringify(j.payload)).toBe(PAYLOAD);
   });
 
-  it('counts 90 s as fresh', () => {
-    setHeartbeat(90_000);
+  // GNU find counts up to 120 s as fresh; BSD find (macOS) rounds up to whole minutes, so only up to 60 s.
+  // DevJack windows touch the heartbeat every 30 s, so 50 s must be fresh everywhere.
+  it('counts 50 s as fresh', () => {
+    setHeartbeat(50_000);
     fs.rmSync(inbox(), { recursive: true, force: true });
     expect(run(buildEntry(flavor, home, 'done'), PAYLOAD).status).toBe(0);
     expect(files()).toHaveLength(1);

@@ -5,6 +5,14 @@
   "version": "0.1.0",
   "publisher": "todo-publisher",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AvramPaul/VSCode_BlackJack_Exstension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AvramPaul/VSCode_BlackJack_Exstension/issues"
+  },
+  "homepage": "https://github.com/AvramPaul/VSCode_BlackJack_Exstension#readme",
   "engines": {
     "vscode": "^1.94.0"
   },
@@ -130,7 +138,9 @@
     "lint": "eslint .",
     "dev:game": "node esbuild.mjs --serve",
     "build:harness": "node esbuild.mjs --harness",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "vscode:prepublish": "node esbuild.mjs --production",
+    "package": "vsce package --no-dependencies --skip-license"
   },
   "dependencies": {
     "jsonc-parser": "^3.3.1"
@@ -142,6 +152,7 @@
     "@types/vscode": "1.94.0",
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
     "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "typescript": "~6.0.3",

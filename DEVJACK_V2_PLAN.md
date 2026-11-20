@@ -192,7 +192,7 @@ Requirements:
 
 🧪 Verified in Phase 1 with real Claude Code, in the CLI and the panel, including a home path `Ana Ștefan's home` and a `cwd` with `ș`, a space and an apostrophe. The installer generates one entry per signal, with absolute paths baked in.
 
-**macOS / Linux** (shell form, the `command` string; verified under dash, bash and Git Bash sh):
+**macOS / Linux** (shell form, the `command` string; verified under dash, bash and Git Bash sh). BSD `find` on macOS rounds `-mmin` up to whole minutes, so the heartbeat window there is 60 s, not 120 s. That is still safe, because every window touches the heartbeat every 30 s.
 ```sh
 d='/home/me/.devjack'; [ -n "$(find "$d/heartbeat" -mmin -2 2>/dev/null)" ] || exit 0; mkdir -p "$d/inbox" && f="$d/inbox/$(date +%s)-$$-start" && { printf '{"v":2,"signal":"start","window":"%s","payload":' "$(printf %s "$DEVJACK_WINDOW_ID" | tr -cd 'a-f0-9')"; cat; printf '}'; } > "$f.tmp" && mv "$f.tmp" "$f.json"; exit 0 # devjack-hook-v2
 ```
@@ -667,10 +667,10 @@ Images in the README must be https URLs or repository-relative paths.
 
 ## 11. Phases
 
-- [ ] **Phase 0: clean slate** (2026-11-19; two items deferred to Phase 6 by decision)
+- [ ] **Phase 0: clean slate** (2026-11-19; the publisher id is deferred to Phase 6 by decision)
   - [x] Remove v1's hooks from `~/.claude/settings.json`: the 5 entries whose command contains `devjack-hook.cjs`, under `Stop`, `UserPromptSubmit`, `PostToolUse`, `Notification` and `SessionEnd`. *Already gone when Phase 0 started (an earlier session removed them). Verified: the only hook left is the user's own `ntfy.sh` `Stop` hook.*
   - [x] Delete `~/.devjack`. Look at `settings.json.devjack-backup`, then delete or rename it. Never restore it: it is stale. *`~/.devjack` was already absent. The backup (Nov 18, older permissions, no DevJack hooks) was renamed to `settings.json.devjack-v1-backup-STALE`.*
-  - [ ] Run `git init`, add a `.gitignore` and create a GitHub repo. The Marketplace links and CI need it. *`git init` (branch `main`) and `.gitignore` done. GitHub repo deferred: `gh` isn't installed, and the remote isn't needed before CI.*
+  - [x] Run `git init`, add a `.gitignore` and create a GitHub repo. The Marketplace links and CI need it. *Public repo [AvramPaul/VSCode_BlackJack_Exstension](https://github.com/AvramPaul/VSCode_BlackJack_Exstension), pushed 2026-11-20: `main` and `phases-0-3` at the Phase 4 commit.*
   - [ ] Pick the extension name and publisher id. Check the Marketplace and Open VSX for name conflicts. *Name `devjack` / "DevJack" is free on both stores (checked 2026-11-19). Publisher id: decide later; it must exist on both stores before Phase 6.*
 - [x] **Phase 1: spike** (§6), 2026-11-19
   - [x] No product code in this phase. *Throwaway tools in `spike/` (gitignored).*
@@ -712,6 +712,23 @@ Images in the README must be https URLs or repository-relative paths.
   - *Found and fixed: the timeline waited on animation frames, which can stall in a hidden document. Every animation now has a timer fallback.*
 - [ ] **Phase 5: hardening**
   - [ ] Run the §13 checks on Windows Sandbox, on macOS and Linux (CI, plus one manual run if possible), on a WSL remote and in Cursor.
+    - **Windows Sandbox, 2026-11-20: works as intended** (user's verdict and DevJack's log).
+      - *The kit is `.dev/sandbox/devjack.wsb`. Its setup script installs VS Code, Claude Code and the Claude extension; DevJack is installed from the VSIX by hand.*
+      - *A clean machine: no Node, no Git, no Git Bash. Claude Code 2.1.329 native, VS Code 1.147.*
+      - *Confirmed in the log:*
+        - *it auto-connected at activation, with no clicks (`start()` took 3 ms);*
+        - *the panel was routed by window id (§13 item 1);*
+        - *a session started before DevJack was installed was routed by `cwd` (item 2);*
+        - *the table opened 2.5 s after each prompt and closed after the hand;*
+        - *the panel's Stop button closed it about 1.4 s later (item 4); an early Stop never opened it;*
+        - *a table closed mid-turn stayed closed until the next prompt (item 7).*
+      - *Not seen there:*
+        - *a real permission prompt (Claude auto-approved, so only Simulate showed "needs you");*
+        - *an answer under 2.5 s;*
+        - *two windows, an external terminal, uninstall.*
+      - *Fixed afterwards:*
+        - *focus for a terminal session whose start DevJack never saw now goes to the active terminal;*
+        - *the registry no longer warns about a new session's file before it has a status.*
   - [ ] Performance: about zero CPU when idle, and under 50 ms of work at activation.
 - [ ] **Phase 6: publish** (§10)
   - [ ] Icon, screenshots, GIF, README, CHANGELOG, CI.

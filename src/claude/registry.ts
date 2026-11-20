@@ -149,7 +149,8 @@ export class RegistryWatcher {
         if (!e) continue; // half-written or unknown shape: try again on the next change
         e.dir = dir;
         if (e.status && (KNOWN_STATUSES as readonly string[]).includes(e.status)) this.recognized = true;
-        else if (!this.warned) {
+        // A brand-new session's file has no status for a moment: only a real unknown value is worth a warning.
+        else if (e.status !== undefined && !this.warned) {
           this.warned = true;
           this.log(`registry: format not recognized (status=${JSON.stringify(e.status)}); falling back to transcripts`);
         }

@@ -1,0 +1,75 @@
+# CI (plan §10.4): build, lint and test on Windows, macOS and Linux; attach the packaged VSIX.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+
+      # Unit tests, including real runs of the generated hook command:
+      # powershell.exe (exec form) on Windows, /bin/sh on macOS (BSD) and Linux (dash).
+      - run: npm test
+
+      - name: Cache the VS Code used by the integration tests
+        uses: actions/cache@v6
+        with:
+          path: .vscode-test
+          key: vscode-test-${{ runner.os }}-1.94.0
+
+      # VS Code 1.94.0 (the engines minimum), temporary DEVJACK_HOME and CLAUDE_CONFIG_DIR.
+      - name: Integration tests (Linux, virtual display)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test:integration
+      - name: Integration tests
+        if: runner.os != 'Linux'
+        run: npm run test:integration
+
+  package:
+    name: package VSIX
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run package -- -o devjack-${{ github.sha }}.vsix
+      - name: List the VSIX contents
+        run: npx vsce ls --no-dependencies
+      - uses: actions/upload-artifact@v7
+        with:
+          name: devjack-vsix
+          path: devjack-*.vsix
+          if-no-files-found: error

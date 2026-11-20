@@ -51,9 +51,12 @@ export class ClaudeFocus implements vscode.Disposable {
         }
       }
     }
-    if (term) {
-      term.show(false);
-      this.log(`focus: terminal "${term.name}"`);
+    // A terminal session whose start DevJack didn't see (claude started before DevJack was installed):
+    // the active terminal is the best guess.
+    const target = term ?? (entry === 'cli' ? vscode.window.activeTerminal : undefined);
+    if (target) {
+      target.show(false);
+      this.log(`focus: terminal "${target.name}"${term ? '' : ' (active terminal)'}`);
     }
   }
 

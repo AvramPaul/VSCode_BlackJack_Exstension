@@ -1,0 +1,11 @@
+# Allowlist: ship only what runs (plan §10.2). Everything else is excluded.
+**
+!dist/extension.js
+!dist/uninstall.js
+!dist/webview/main.js
+!dist/webview/main.css
+!media/**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
