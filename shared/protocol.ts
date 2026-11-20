@@ -27,7 +27,8 @@ export interface Prefs {
 }
 
 export type ToWebview =
-  | { type: 'init'; v: typeof PROTOCOL_VERSION; mode: 'auto' | 'free'; status: StatusInfo; prefs: Prefs }
+  /** `saved`: the last game the webview sent with 'save' (bankroll, stats, options, a round in progress). */
+  | { type: 'init'; v: typeof PROTOCOL_VERSION; mode: 'auto' | 'free'; status: StatusInfo; prefs: Prefs; saved?: unknown }
   | { type: 'status'; v: typeof PROTOCOL_VERSION; status: StatusInfo }
   | { type: 'claudeDone'; v: typeof PROTOCOL_VERSION; mode: DoneMode }
   | { type: 'prefs'; v: typeof PROTOCOL_VERSION; prefs: Prefs };

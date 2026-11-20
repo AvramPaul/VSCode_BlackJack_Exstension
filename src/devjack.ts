@@ -28,6 +28,8 @@ import * as path from 'path';
 const LIVE_MS = 10_000;
 const TICK_MS = 60_000;
 const TOAST_THROTTLE_MS = 15_000;
+/** globalState key for the game (bankroll, stats, options, a round in progress). */
+const GAME_KEY = 'devjack.game';
 
 type ConnStatus = { status: string; result?: ApplyResult };
 
@@ -36,6 +38,8 @@ export interface DevJackApi {
   devjackHome: string;
   windowState(): WindowStateInfo;
   isTableOpen(): boolean;
+  /** The game in the table loaded and sent 'ready' (tests). */
+  isTableReady(): boolean;
   isPaused(): boolean;
   setPaused(until: number | 'restart' | undefined): void;
   connectionStatus(): Record<string, string>;
@@ -63,6 +67,7 @@ export class DevJack implements vscode.Disposable {
   private readonly statusBar = new StatusBar();
   private readonly focus: ClaudeFocus;
   private pausedUntil: number | 'restart' | undefined;
+  private panel: TablePanel | undefined;
   private waitingSession: string | undefined;
   private endedSession: string | undefined;
   private lastToastAt = 0;
@@ -81,7 +86,21 @@ export class DevJack implements vscode.Disposable {
     this.transcript = new TranscriptWatcher((e) => this.apply({ kind: 'transcript', sessionId: e.sessionId, what: e.what, at: e.at }, true));
     this.focus = new ClaudeFocus((sid) => this.registry.bySession(sid)?.entrypoint, (m) => this.log.debug(m));
     this.table = new TableController({
-      createPanel: (mode, status) => new TablePanel(mode, status, { sound: this.cfg().get<boolean>('sound', true) }),
+      createPanel: (mode, status) => {
+        const p = new TablePanel({
+          extensionUri: ctx.extensionUri,
+          mode,
+          status,
+          prefs: { sound: this.cfg().get<boolean>('sound', true) },
+          saved: ctx.globalState.get(GAME_KEY),
+          onSave: (data) => void ctx.globalState.update(GAME_KEY, data),
+        });
+        this.panel = p;
+        p.onDidDispose(() => {
+          if (this.panel === p) this.panel = undefined;
+        });
+        return p;
+      },
       settings: () => this.controllerSettings(),
       paused: () => this.isPaused(),
       focusClaude: (reason) => void this.focus.focus(reason === 'close' ? this.endedSession : this.waitingSession ?? this.endedSession),
@@ -123,6 +142,7 @@ export class DevJack implements vscode.Disposable {
       vscode.workspace.onDidChangeWorkspaceFolders(() => this.router.resetNegative()),
       vscode.workspace.onDidChangeConfiguration((e) => {
         if (e.affectsConfiguration('devjack.debugLog')) this.log.refresh();
+        if (e.affectsConfiguration('devjack.sound')) this.panel?.prefs({ sound: this.cfg().get<boolean>('sound', true) });
         if (e.affectsConfiguration('claudeCode.environmentVariables')) this.restartRegistry();
       }),
     );
@@ -149,6 +169,7 @@ export class DevJack implements vscode.Disposable {
       devjackHome: this.home,
       windowState: () => this.tracker.windowState(),
       isTableOpen: () => this.table.isOpen,
+      isTableReady: () => !!this.panel?.isReady,
       isPaused: () => this.isPaused(),
       setPaused: (until) => this.setPaused(until),
       connectionStatus: () => Object.fromEntries([...this.conn].map(([k, v]) => [k, v.status])),

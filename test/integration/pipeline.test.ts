@@ -33,6 +33,7 @@ suite('DevJack pipeline (Phase 2)', function () {
     await until('table open', () => api.isTableOpen());
     assert.strictEqual(api.windowState().state, 'working');
     await until('one table tab', () => tableTabs().length === 1, 3000); // the tab model updates a moment later
+    await until('the game loaded under the CSP and said ready', () => api.isTableReady(), 8000);
     fire('PermissionRequest', { session_id: 'it-1', prompt_id: 'p1', cwd: workspace(), tool_name: 'Bash' });
     await until('waiting', () => api.windowState().state === 'waiting');
     fire('Stop', { session_id: 'it-1', prompt_id: 'p1', cwd: workspace() });

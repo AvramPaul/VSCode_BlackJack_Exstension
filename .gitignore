@@ -20,3 +20,6 @@ spike/
 .DS_Store
 Thumbs.db
 *.log
+
+# dev harness build output
+webview/dev/build/

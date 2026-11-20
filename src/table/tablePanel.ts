@@ -1,7 +1,7 @@
 /**
- * The table webview. Phase 2–3: a placeholder that shows Claude's status, the "needs you" strip with
- * Go to Claude, the done banners, and a toggle that pretends a hand is in progress (to exercise
- * close-after-hand before the game exists). The game (plan §7) replaces the HTML in Phase 4; the protocol stays.
+ * The table webview (plan §7.4): loads the bundled game (dist/webview) through asWebviewUri, with a strict
+ * CSP (default-src 'none', scripts by nonce, styles/images/fonts only from the webview's own source).
+ * It only ever sends status values and numbers to the webview, never prompt or tool content.
  */
 import * as vscode from 'vscode';
 import { randomBytes } from 'crypto';
@@ -10,12 +10,26 @@ import type { Mode, PanelLike } from './tableController';
 
 export const VIEW_TYPE = 'devjack.table';
 
+export interface PanelOptions {
+  extensionUri: vscode.Uri;
+  mode: Mode;
+  status: StatusInfo;
+  prefs: Prefs;
+  /** The last saved game (globalState): bankroll, stats, options, a round in progress. */
+  saved: unknown;
+  onSave(data: unknown): void;
+}
+
 export class TablePanel implements PanelLike, vscode.Disposable {
   private readonly panel: vscode.WebviewPanel;
   private ready = false;
   private queue: ToWebview[] = [];
   private disposed = false;
   private hand = false;
+  private status_: StatusInfo;
+  private done: DoneMode | undefined;
+  private prefs_: Prefs;
+  private saved: unknown;
   private readonly disposeEmitter = new vscode.EventEmitter<void>();
   private readonly handEmitter = new vscode.EventEmitter<boolean>();
   private readonly goEmitter = new vscode.EventEmitter<void>();
@@ -23,20 +37,16 @@ export class TablePanel implements PanelLike, vscode.Disposable {
   readonly onHandState = this.handEmitter.event;
   readonly onGoToClaude = this.goEmitter.event;
 
-  constructor(mode: Mode, status: StatusInfo, prefs: Prefs) {
-    this.panel = vscode.window.createWebviewPanel(VIEW_TYPE, 'DevJack', { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true }, { enableScripts: true, localResourceRoots: [], retainContextWhenHidden: false });
-    this.panel.webview.html = html(this.panel.webview.cspSource);
-    this.panel.webview.onDidReceiveMessage((m: FromWebview) => {
-      if (!m || typeof m !== 'object') return;
-      if (m.type === 'ready') {
-        this.ready = true;
-        this.flush();
-      } else if (m.type === 'handState') {
-        this.hand = !!m.handInProgress;
-        this.handEmitter.fire(this.hand);
-      } else if (m.type === 'goToClaude') this.goEmitter.fire();
-      else if (m.type === 'close') this.dispose();
-    });
+  constructor(private readonly opts: PanelOptions) {
+    this.status_ = opts.status;
+    this.prefs_ = opts.prefs;
+    this.saved = opts.saved;
+    const root = vscode.Uri.joinPath(opts.extensionUri, 'dist', 'webview');
+    this.panel = vscode.window.createWebviewPanel(VIEW_TYPE, 'DevJack', { viewColumn: vscode.ViewColumn.Beside, preserveFocus: true }, { enableScripts: true, localResourceRoots: [root, vscode.Uri.joinPath(opts.extensionUri, 'media')], retainContextWhenHidden: false });
+    this.panel.iconPath = vscode.Uri.joinPath(opts.extensionUri, 'media', 'tab-icon.svg');
+    const w = this.panel.webview;
+    w.html = html(w.cspSource, w.asWebviewUri(vscode.Uri.joinPath(root, 'main.js')).toString(), w.asWebviewUri(vscode.Uri.joinPath(root, 'main.css')).toString());
+    w.onDidReceiveMessage((m: FromWebview) => this.onMessage(m));
     this.panel.onDidDispose(() => {
       this.disposed = true;
       this.disposeEmitter.fire();
@@ -44,11 +54,41 @@ export class TablePanel implements PanelLike, vscode.Disposable {
       this.handEmitter.dispose();
       this.goEmitter.dispose();
     });
-    this.post({ type: 'init', v: PROTOCOL_VERSION, mode, status, prefs });
+  }
+
+  private onMessage(m: FromWebview) {
+    if (!m || typeof m !== 'object') return;
+    switch (m.type) {
+      case 'ready':
+        // Also after VS Code reloads a hidden webview: start over with the current picture.
+        this.ready = true;
+        this.queue = [];
+        void this.panel.webview.postMessage({ type: 'init', v: PROTOCOL_VERSION, mode: this.opts.mode, status: this.status_, prefs: this.prefs_, saved: this.saved } satisfies ToWebview);
+        if (this.done) void this.panel.webview.postMessage({ type: 'claudeDone', v: PROTOCOL_VERSION, mode: this.done } satisfies ToWebview);
+        break;
+      case 'handState':
+        this.hand = !!m.handInProgress;
+        this.handEmitter.fire(this.hand);
+        break;
+      case 'save':
+        this.saved = m.data;
+        this.opts.onSave(m.data);
+        break;
+      case 'goToClaude':
+        this.goEmitter.fire();
+        break;
+      case 'close':
+        this.dispose();
+        break;
+    }
   }
 
   get isDisposed() {
     return this.disposed;
+  }
+  /** The game script loaded (under the CSP) and said hello. */
+  get isReady() {
+    return this.ready && !this.disposed;
   }
   /** The table's tab is active in its group and the window has focus. */
   get hasFocus() {
@@ -59,12 +99,16 @@ export class TablePanel implements PanelLike, vscode.Disposable {
   }
 
   status(status: StatusInfo) {
+    this.status_ = status;
+    if (status.state !== 'idle') this.done = undefined;
     this.post({ type: 'status', v: PROTOCOL_VERSION, status });
   }
   claudeDone(mode: DoneMode) {
+    this.done = mode;
     this.post({ type: 'claudeDone', v: PROTOCOL_VERSION, mode });
   }
   prefs(prefs: Prefs) {
+    this.prefs_ = prefs;
     this.post({ type: 'prefs', v: PROTOCOL_VERSION, prefs });
   }
   reveal() {
@@ -73,12 +117,11 @@ export class TablePanel implements PanelLike, vscode.Disposable {
 
   private post(m: ToWebview) {
     if (this.disposed) return;
-    this.queue.push(m);
-    this.flush();
-  }
-  private flush() {
-    if (!this.ready) return;
-    for (const m of this.queue.splice(0)) void this.panel.webview.postMessage(m);
+    if (!this.ready) {
+      this.queue.push(m);
+      return;
+    }
+    void this.panel.webview.postMessage(m);
   }
 
   dispose() {
@@ -86,94 +129,20 @@ export class TablePanel implements PanelLike, vscode.Disposable {
   }
 }
 
-function html(cspSource: string): string {
+function html(cspSource: string, js: string, css: string): string {
   const nonce = randomBytes(16).toString('base64');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${cspSource} 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${cspSource}; img-src ${cspSource} data:; font-src ${cspSource};">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="${css}">
 <title>DevJack</title>
-<style nonce="${nonce}">
-  :root { --amber: var(--vscode-editorWarning-foreground, #d7a000); }
-  body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: var(--vscode-font-family); color: var(--vscode-foreground); background: var(--vscode-editor-background); }
-  .strip { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--vscode-panel-border, transparent); min-height: 28px; }
-  .strip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--vscode-descriptionForeground); }
-  .strip.working .dot { background: var(--vscode-progressBar-background, #0e70c0); }
-  .strip.waiting { background: color-mix(in srgb, var(--amber) 14%, transparent); }
-  .strip.waiting .dot { background: var(--amber); animation: pulse 1.2s ease-in-out infinite; }
-  .strip.done .dot { background: var(--vscode-testing-iconPassed, #3fb950); }
-  .strip .label { font-weight: 600; }
-  .strip .time { opacity: .7; font-variant-numeric: tabular-nums; }
-  .strip .spacer { flex: 1; }
-  button { font: inherit; color: var(--vscode-button-foreground); background: var(--vscode-button-background); border: 0; padding: 4px 10px; border-radius: 2px; cursor: pointer; }
-  button:hover { background: var(--vscode-button-hoverBackground); }
-  button:focus-visible, input:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 2px; }
-  kbd { font-family: var(--vscode-editor-font-family); font-size: 11px; opacity: .8; margin-left: 6px; }
-  .banner { margin: 12px; padding: 10px 12px; border-left: 3px solid var(--amber); background: color-mix(in srgb, var(--amber) 10%, transparent); }
-  .main { flex: 1; display: grid; place-items: center; text-align: center; padding: 24px; }
-  .note { font-size: 12px; opacity: .6; margin-top: 16px; }
-  .hidden { display: none; }
-  @keyframes pulse { 50% { opacity: .35; } }
-  @media (prefers-reduced-motion: reduce) { .strip.waiting .dot { animation: none; } }
-</style>
 </head>
 <body>
-<div class="strip" id="strip" role="status" aria-live="polite">
-  <span class="dot" aria-hidden="true"></span>
-  <span class="label" id="label">DevJack</span>
-  <span class="time" id="time"></span>
-  <span class="spacer"></span>
-  <button id="go" class="hidden" title="Go to Claude (G)">Go to Claude<kbd>G</kbd></button>
-</div>
-<div class="banner hidden" id="banner" role="status"></div>
-<div class="main">
-  <div>
-    <div>Placeholder table. The game arrives in Phase 4.</div>
-    <label class="note"><input type="checkbox" id="hand"> Pretend a hand is in progress</label>
-  </div>
-</div>
-<script nonce="${nonce}">
-  const vscode = acquireVsCodeApi();
-  const $ = (id) => document.getElementById(id);
-  let status = { state: 'idle', sessions: 0 };
-  let done = null;
-  let timer;
-  const LABEL = { idle: 'Claude is idle', working: 'Claude is working', waiting: 'Claude needs you', done: 'Done ✓' };
-  function render() {
-    const state = done && status.state === 'idle' ? 'done' : status.state;
-    $('strip').className = 'strip ' + state;
-    $('label').textContent = LABEL[state] || state;
-    let t = '';
-    if ((state === 'working' || state === 'waiting') && status.since) {
-      const s = Math.max(0, Math.floor((Date.now() - status.since) / 1000));
-      t = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
-      if (status.sessions > 1) t += ' · ' + status.sessions + ' sessions';
-    }
-    $('time').textContent = t;
-    $('go').classList.toggle('hidden', state !== 'waiting');
-    const banner = done === 'afterHand' ? 'Claude finished, finish your hand.' : done === 'keepOpen' && state === 'done' ? 'Claude is done.' : '';
-    $('banner').textContent = banner;
-    $('banner').classList.toggle('hidden', !banner);
-    // Tick only while Claude works: no CPU use when idle.
-    const ticking = state === 'working' || state === 'waiting';
-    if (ticking && !timer) timer = setInterval(render, 1000);
-    if (!ticking && timer) { clearInterval(timer); timer = undefined; }
-  }
-  window.addEventListener('message', (e) => {
-    const m = e.data;
-    if (!m) return;
-    if (m.type === 'init' || m.type === 'status') { status = m.status; if (status.state !== 'idle') done = null; render(); }
-    if (m.type === 'claudeDone') { done = m.mode; render(); }
-  });
-  $('go').addEventListener('click', () => vscode.postMessage({ type: 'goToClaude' }));
-  $('hand').addEventListener('change', (e) => vscode.postMessage({ type: 'handState', handInProgress: e.target.checked }));
-  window.addEventListener('keydown', (e) => {
-    if ((e.key === 'g' || e.key === 'G') && status.state === 'waiting') vscode.postMessage({ type: 'goToClaude' });
-  });
-  vscode.postMessage({ type: 'ready' });
-</script>
+<div id="app"></div>
+<script nonce="${nonce}" src="${js}"></script>
 </body>
 </html>`;
 }

@@ -443,6 +443,12 @@ The rules live in a pure `engine/` module, with no DOM, fully unit tested.
 - **Bankroll:** starts at 1,000 play chips. A free **Rebuy** is offered when the bankroll drops below the minimum bet, and rebuys are counted in the stats.
 - **Stats:** hands played, wins / losses / pushes, blackjacks, biggest win, best streak, net result, with a reset button.
 - **Later (v2.1):** surrender, basic-strategy hints.
+- **Choices made in Phase 4** (the brief left them open):
+  - any two cards of equal value can be split (K+Q too);
+  - split aces can't be re-split;
+  - insurance is offered only when the bankroll covers it. With a blackjack, it works as even money.
+  - The dealer doesn't draw when every hand busted or is a blackjack.
+  - 3:2 and insurance can leave halves, so the bankroll can show e.g. 2.50. The pre-filled bet is rounded down to whole chips of 5.
 
 ### 7.2 Look and feel
 
@@ -488,6 +494,9 @@ When the table opens automatically, it waits in Betting, so one key (Space) deal
 | `1`–`4` | Add a chip |
 | `Backspace` | Clear the bet |
 | `M` | Mute |
+| `G` | Go to Claude (while Claude needs you) |
+
+`Space` also takes the free rebuy when the bankroll is below the minimum bet. A key pressed during an animation fast-forwards it.
 
 **Never lose a bet:** if the panel closes in the middle of a hand, the round is saved and resumes next time. The webview reports `handInProgress` to the extension, so the controller knows when it may close the table (§5.8).
 
@@ -536,9 +545,9 @@ devjack/
 │  ├─ util/fsx.ts          atomic writes
 │  ├─ statusBar.ts · diagnostics.ts · log.ts
 │  └─ uninstall.ts
-├─ scripts/dev-prepare.mjs F5 pre-launch: build + sandbox folders (.dev/)
+├─ scripts/                dev-prepare.mjs (F5: build + sandbox folders in .dev/) · screenshots.mjs (`npm run shots`)
 ├─ shared/protocol.ts      messages extension ⇄ webview
-├─ webview/                game: engine/ (pure rules) · ui/ · styles/ · main.ts · dev/ (browser harness)
+├─ webview/                game: engine/ (pure rules) · ui/ (art, motion, sound) · styles/ · app.ts · main.ts · dev/ (browser harness)
 ├─ test/                   unit/ · integration/ · fixtures/ (settings.json samples, hook payloads recorded in the spike)
 ├─ media/                  icon.png (256×256), screenshots, demo.gif
 ├─ README.md · CHANGELOG.md · LICENSE (MIT)
@@ -691,10 +700,16 @@ Images in the README must be https URLs or repository-relative paths.
     - *pause.*
 
     *14 of 14 pass on VS Code 1.94.0 (including real `claude -p`), 13 of 13 on stable 1.147. Test windows must be left alone while they run: clicking their notifications breaks the run.*
-- [ ] **Phase 4: game** (§7)
-  - [ ] Engine and its tests first.
-  - [ ] Then the visuals, in the browser harness.
-  - [ ] Then wire the game into the panel.
+- [x] **Phase 4: game** (§7), 2026-11-20
+  - [x] Engine and its tests first. *`webview/engine/`: 43 vitest tests, covering every payout and rule, split and double edge cases, shoe penetration, save/resume, and a 3,000-round property test that checks no chips are created or lost.*
+  - [x] Then the visuals, in the browser harness.
+    - *`npm run dev:game` serves the harness, with a mock `acquireVsCodeApi`, a debug bar and `?scenario=`.*
+    - *`npm run shots` takes headless screenshots at 360, 700 and 1400 px; `?keys=` plays keyboard-only rounds, with or without animations.*
+    - *All art is original SVG generated in code.*
+  - [x] Then wire the game into the panel.
+    - *`dist/webview` loaded through `asWebviewUri` under the strict CSP. The integration test checks that the game says `ready`.*
+    - *The game is saved to `globalState` after every action, `handState` drives close-after-hand, and the sound setting is pushed live.*
+  - *Found and fixed: the timeline waited on animation frames, which can stall in a hidden document. Every animation now has a timer fallback.*
 - [ ] **Phase 5: hardening**
   - [ ] Run the §13 checks on Windows Sandbox, on macOS and Linux (CI, plus one manual run if possible), on a WSL remote and in Cursor.
   - [ ] Performance: about zero CPU when idle, and under 50 ms of work at activation.

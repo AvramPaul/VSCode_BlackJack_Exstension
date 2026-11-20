@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist/**', 'out/**', 'node_modules/**', 'spike/**', '.vscode-test/**', 'esbuild.mjs', 'eslint.config.mjs', '.vscode-test.mjs'] },
+  { ignores: ['dist/**', 'out/**', 'node_modules/**', 'spike/**', '.vscode-test/**', '.dev/**', 'webview/dev/build/**', 'esbuild.mjs', 'eslint.config.mjs', '.vscode-test.mjs'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -18,5 +18,6 @@ export default tseslint.config(
   {
     files: ['scripts/**/*.mjs'],
     languageOptions: { globals: { process: 'readonly', console: 'readonly' } },
+    rules: { 'no-console': 'off' },
   },
 );
