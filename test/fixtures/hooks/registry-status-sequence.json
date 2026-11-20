@@ -1,0 +1,25 @@
+{
+  "description": "Panel Stop-button session: registry status over time (pair with panel-stop-button.json; t is relative to the first registry entry).",
+  "events": [
+    {
+      "t": 0,
+      "status": null,
+      "waitingFor": null
+    },
+    {
+      "t": 201,
+      "status": "idle",
+      "waitingFor": null
+    },
+    {
+      "t": 21517,
+      "status": "busy",
+      "waitingFor": null
+    },
+    {
+      "t": 49057,
+      "status": "idle",
+      "waitingFor": null
+    }
+  ]
+}

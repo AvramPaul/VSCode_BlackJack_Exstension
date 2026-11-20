@@ -1,0 +1,234 @@
+{
+  "description": "CLI: normal turn, permission wait, early Esc, mid-stream Esc (pair with registry-status-sequence.json).",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup",
+        "model": "claude-haiku-5-5"
+      }
+    },
+    {
+      "t": 3932,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "eb9d486d-f101-46e6-ad71-fa2041f208ee",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 4868,
+      "event": "Stop",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "eb9d486d-f101-46e6-ad71-fa2041f208ee",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "Stop",
+        "stop_hook_active": false,
+        "last_assistant_message": "<assistant message>",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 7466,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 8338,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "touch spike-status.txt",
+          "description": "Create empty spike-status.txt file"
+        },
+        "tool_use_id": "toolu_0198NdMLyrTB3UBoc9XdNf6z"
+      }
+    },
+    {
+      "t": 8503,
+      "event": "PermissionRequest",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PermissionRequest",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "touch spike-status.txt",
+          "description": "Create empty spike-status.txt file"
+        },
+        "permission_suggestions": [
+          {
+            "type": "addDirectories",
+            "directories": [
+              "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws"
+            ],
+            "destination": "session"
+          },
+          {
+            "type": "setMode",
+            "mode": "acceptEdits",
+            "destination": "session"
+          }
+        ]
+      }
+    },
+    {
+      "t": 12245,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "touch spike-status.txt",
+          "description": "Create empty spike-status.txt file"
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_0198NdMLyrTB3UBoc9XdNf6z",
+        "duration_ms": 603
+      }
+    },
+    {
+      "t": 12919,
+      "event": "Stop",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "Stop",
+        "stop_hook_active": false,
+        "last_assistant_message": "<assistant message>",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 13781,
+      "event": "SubagentStop",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "c1df200a-d9c7-468b-853e-09820d6420d6",
+        "permission_mode": "default",
+        "agent_id": "a14d911d7e043f2d8",
+        "agent_type": "",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "SubagentStop",
+        "stop_hook_active": false,
+        "agent_transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96\\subagents\\agent-a14d911d7e043f2d8.jsonl",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 15492,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "fe555026-bf58-4ba1-a0e4-d7f83b20180f",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 22419,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "64911e83-381e-4647-afd0-34231b2bde91",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 38851,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "8438defc-a15e-479b-aa3d-cd03ac949b96",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\8438defc-a15e-479b-aa3d-cd03ac949b96.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\8438defc-a15e-479b-aa3d-cd03ac949b96\\scratchpad",
+        "prompt_id": "64911e83-381e-4647-afd0-34231b2bde91",
+        "hook_event_name": "SessionEnd",
+        "reason": "prompt_input_exit"
+      }
+    }
+  ]
+}

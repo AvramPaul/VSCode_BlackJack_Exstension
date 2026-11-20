@@ -1,0 +1,198 @@
+{
+  "description": "CLI: plan mode; ExitPlanMode fires PermissionRequest and Notification; rejected with Esc (interrupt, no Stop).",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup",
+        "model": "claude-haiku-5-5"
+      }
+    },
+    {
+      "t": 3929,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 8414,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "Write",
+        "tool_input": {
+          "file_path": "C:\\Users\\me\\.claude\\plans\\make-a-one-line-plan-resilient-russell.md",
+          "content": "Create `plan.txt` in the working directory containing the word \"hi\".\n"
+        },
+        "tool_use_id": "toolu_01Uv6JVDATPkuoJScETpL59H"
+      }
+    },
+    {
+      "t": 8598,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "Write",
+        "tool_input": {
+          "file_path": "C:\\Users\\me\\.claude\\plans\\make-a-one-line-plan-resilient-russell.md",
+          "content": "Create `plan.txt` in the working directory containing the word \"hi\".\n"
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_01Uv6JVDATPkuoJScETpL59H",
+        "duration_ms": 43
+      }
+    },
+    {
+      "t": 8801,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "ToolSearch",
+        "tool_input": {
+          "query": "select:ExitPlanMode",
+          "max_results": 1
+        },
+        "tool_use_id": "toolu_01T8UMouPsEQhNv5tLCAyRJb"
+      }
+    },
+    {
+      "t": 8926,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "ToolSearch",
+        "tool_input": {
+          "query": "select:ExitPlanMode",
+          "max_results": 1
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_01T8UMouPsEQhNv5tLCAyRJb",
+        "duration_ms": 4
+      }
+    },
+    {
+      "t": 12985,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "ExitPlanMode",
+        "tool_input": {
+          "plan": "Create `plan.txt` in the working directory containing the word \"hi\".\n",
+          "planFilePath": "C:\\Users\\me\\.claude\\plans\\make-a-one-line-plan-resilient-russell.md"
+        },
+        "tool_use_id": "toolu_01SArs9k2oW36BHLtvu5JcYB"
+      }
+    },
+    {
+      "t": 13132,
+      "event": "PermissionRequest",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "permission_mode": "plan",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PermissionRequest",
+        "tool_name": "ExitPlanMode",
+        "tool_input": {
+          "plan": "Create `plan.txt` in the working directory containing the word \"hi\".\n",
+          "planFilePath": "C:\\Users\\me\\.claude\\plans\\make-a-one-line-plan-resilient-russell.md"
+        }
+      }
+    },
+    {
+      "t": 19128,
+      "event": "Notification",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "hook_event_name": "Notification",
+        "message": "Claude Code needs your approval for the plan",
+        "notification_type": "permission_prompt"
+      }
+    },
+    {
+      "t": 24648,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "f14a3ef2-b0f5-4431-9472-9b45810c5d58",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f14a3ef2-b0f5-4431-9472-9b45810c5d58.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f14a3ef2-b0f5-4431-9472-9b45810c5d58\\scratchpad",
+        "prompt_id": "4558349e-2164-4dda-89da-5036362dcf99",
+        "hook_event_name": "SessionEnd",
+        "reason": "prompt_input_exit"
+      }
+    }
+  ]
+}

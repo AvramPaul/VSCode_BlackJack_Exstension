@@ -1,0 +1,185 @@
+{
+  "description": "CLI: a second message sent while a tool runs fires UserPromptSubmit with the SAME prompt_id; one Stop ends both.",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup",
+        "model": "claude-haiku-5-5"
+      }
+    },
+    {
+      "t": 3935,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 4990,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "ping -n 15 127.0.0.1",
+          "description": "Run ping for about 15 seconds"
+        },
+        "tool_use_id": "toolu_01J937q8kuqmyuDUDQoz5FeZ"
+      }
+    },
+    {
+      "t": 5150,
+      "event": "PermissionRequest",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PermissionRequest",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "ping -n 15 127.0.0.1",
+          "description": "Run ping for about 15 seconds"
+        },
+        "permission_suggestions": [
+          {
+            "type": "addRules",
+            "rules": [
+              {
+                "toolName": "Bash",
+                "ruleContent": "ping -n 15 127.0.0.1"
+              }
+            ],
+            "behavior": "allow",
+            "destination": "localSettings"
+          }
+        ]
+      }
+    },
+    {
+      "t": 8204,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 20575,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "Bash",
+        "tool_input": {
+          "command": "ping -n 15 127.0.0.1",
+          "description": "Run ping for about 15 seconds"
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_01J937q8kuqmyuDUDQoz5FeZ",
+        "duration_ms": 14784
+      }
+    },
+    {
+      "t": 21276,
+      "event": "Stop",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "Stop",
+        "stop_hook_active": false,
+        "last_assistant_message": "<assistant message>",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 22150,
+      "event": "SubagentStop",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "permission_mode": "default",
+        "agent_id": "aaf5ec8aca2ee6d54",
+        "agent_type": "",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "SubagentStop",
+        "stop_hook_active": false,
+        "agent_transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\subagents\\agent-aaf5ec8aca2ee6d54.jsonl",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 41652,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "f8152fe5-64a2-4d24-97d2-74d4d09f2273",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f8152fe5-64a2-4d24-97d2-74d4d09f2273.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\f8152fe5-64a2-4d24-97d2-74d4d09f2273\\scratchpad",
+        "prompt_id": "e3c8e214-f844-4da4-9945-ef4213c6276b",
+        "hook_event_name": "SessionEnd",
+        "reason": "prompt_input_exit"
+      }
+    }
+  ]
+}

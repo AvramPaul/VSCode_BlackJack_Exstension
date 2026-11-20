@@ -1,0 +1,33 @@
+{
+  "description": "Panel: short-lived session the Claude extension starts on its own (SessionStart then SessionEnd reason other within 0.2 s).",
+  "source": "panel",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "cb96c7e6-a90d-49d4-8115-1a5f0ff50738",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\cb96c7e6-a90d-49d4-8115-1a5f0ff50738.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\cb96c7e6-a90d-49d4-8115-1a5f0ff50738\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup"
+      }
+    },
+    {
+      "t": 192,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "cb96c7e6-a90d-49d4-8115-1a5f0ff50738",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\cb96c7e6-a90d-49d4-8115-1a5f0ff50738.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\cb96c7e6-a90d-49d4-8115-1a5f0ff50738\\scratchpad",
+        "hook_event_name": "SessionEnd",
+        "reason": "other"
+      }
+    }
+  ]
+}

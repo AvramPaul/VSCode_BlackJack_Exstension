@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run DevJack (sandboxed Claude config)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/.dev/workspace"],
+      "env": {
+        "DEVJACK_HOME": "${workspaceFolder}/.dev/devjack-home",
+        "CLAUDE_CONFIG_DIR": "${workspaceFolder}/.dev/claude"
+      },
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "preLaunchTask": "dev: prepare"
+    },
+    {
+      "name": "Run DevJack (REAL Claude config: edits ~/.claude/settings.json)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}", "${workspaceFolder}/.dev/workspace"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "preLaunchTask": "dev: prepare"
+    }
+  ]
+}

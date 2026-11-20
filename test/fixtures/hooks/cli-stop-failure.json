@@ -1,0 +1,61 @@
+{
+  "description": "CLI (headless): API error (model_not_found) fires StopFailure; no Stop.",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "f91246db-6d03-43f6-9935-8742b1021cf0",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f91246db-6d03-43f6-9935-8742b1021cf0.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "hook_event_name": "SessionStart",
+        "source": "startup"
+      }
+    },
+    {
+      "t": 324,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "f91246db-6d03-43f6-9935-8742b1021cf0",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f91246db-6d03-43f6-9935-8742b1021cf0.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "prompt_id": "268cc715-0a62-4c2e-ba6a-7bdaa2b1cc0c",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 1108,
+      "event": "StopFailure",
+      "payload": {
+        "session_id": "f91246db-6d03-43f6-9935-8742b1021cf0",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f91246db-6d03-43f6-9935-8742b1021cf0.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "prompt_id": "268cc715-0a62-4c2e-ba6a-7bdaa2b1cc0c",
+        "effort": {
+          "level": "high"
+        },
+        "hook_event_name": "StopFailure",
+        "error": "model_not_found",
+        "last_assistant_message": "<assistant message>"
+      }
+    },
+    {
+      "t": 2651,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "f91246db-6d03-43f6-9935-8742b1021cf0",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\f91246db-6d03-43f6-9935-8742b1021cf0.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "prompt_id": "268cc715-0a62-4c2e-ba6a-7bdaa2b1cc0c",
+        "hook_event_name": "SessionEnd",
+        "reason": "other"
+      }
+    }
+  ]
+}

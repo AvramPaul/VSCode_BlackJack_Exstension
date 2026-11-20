@@ -1,0 +1,22 @@
+# dependencies and build output
+node_modules/
+dist/
+out/
+*.vsix
+*.tsbuildinfo
+
+# test runners and F5 sandbox
+.vscode-test/
+coverage/
+.dev/
+
+# Phase 1 spike workspace (throwaway; sanitized payloads go to test/fixtures)
+spike/
+
+# local Claude Code settings (permission grants contain local paths)
+.claude/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log

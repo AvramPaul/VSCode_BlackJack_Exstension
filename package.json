@@ -1,0 +1,144 @@
+{
+  "name": "devjack",
+  "displayName": "DevJack",
+  "description": "A Blackjack table that opens beside the editor while Claude Code works, and closes when it is done.",
+  "version": "0.1.0",
+  "publisher": "todo-publisher",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "devjack.openTable",
+        "title": "Open Blackjack Table",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.simulate",
+        "title": "Simulate Claude Run",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.checkConnection",
+        "title": "Check Claude Connection",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.connect",
+        "title": "Connect to Claude Code",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.disconnect",
+        "title": "Disconnect from Claude Code",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.pause",
+        "title": "Pause Auto-Open",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.resume",
+        "title": "Resume Auto-Open",
+        "category": "DevJack"
+      },
+      {
+        "command": "devjack.showLog",
+        "title": "Show Log",
+        "category": "DevJack"
+      }
+    ],
+    "configuration": {
+      "title": "DevJack",
+      "properties": {
+        "devjack.connectToClaudeCode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Connect to Claude Code automatically (adds DevJack's hooks to your Claude Code user settings once)."
+        },
+        "devjack.autoOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the table automatically while Claude Code works on a prompt."
+        },
+        "devjack.openDelaySeconds": {
+          "type": "number",
+          "default": 2.5,
+          "minimum": 0,
+          "maximum": 60,
+          "description": "Open the table only once Claude has been working this long, so quick answers never flash it."
+        },
+        "devjack.closeBehavior": {
+          "type": "string",
+          "enum": ["afterHand", "immediately", "keepOpen"],
+          "enumDescriptions": [
+            "When Claude is done, let you finish the current hand (at most 60 s), then close.",
+            "Close as soon as Claude is done.",
+            "Keep the table open; it shows that Claude is done."
+          ],
+          "default": "afterHand",
+          "description": "What the table does when Claude is done."
+        },
+        "devjack.alertWhenClaudeNeedsYou": {
+          "type": "boolean",
+          "default": true,
+          "description": "While the table is open, show a notification with a Go to Claude button when Claude needs a permission decision or an answer."
+        },
+        "devjack.sound": {
+          "type": "boolean",
+          "default": true,
+          "description": "Play short table sounds (cards, chips, Claude needs you)."
+        },
+        "devjack.debugLog": {
+          "type": "boolean",
+          "default": false,
+          "description": "Write detailed routing and state logs to the DevJack output channel. Prompt and tool content is never logged."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:uninstall": "node ./dist/uninstall.js",
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc -p . --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "node esbuild.mjs && vscode-test",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.20.5",
+    "@types/vscode": "1.94.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.15.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vitest": "^5.1.1"
+  }
+}

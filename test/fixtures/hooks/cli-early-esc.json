@@ -1,0 +1,49 @@
+{
+  "description": "CLI: Esc 1.5 s after the prompt, before any output. No hook and no transcript entry follow; only the session registry shows idle.",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "ad4a7ea5-5501-466e-87a5-5a76c40dbebf",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup",
+        "model": "claude-haiku-5-5"
+      }
+    },
+    {
+      "t": 3933,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "ad4a7ea5-5501-466e-87a5-5a76c40dbebf",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf\\scratchpad",
+        "prompt_id": "9d2dd656-4891-4205-a02b-0492913d8daf",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 20017,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "ad4a7ea5-5501-466e-87a5-5a76c40dbebf",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\ad4a7ea5-5501-466e-87a5-5a76c40dbebf\\scratchpad",
+        "prompt_id": "9d2dd656-4891-4205-a02b-0492913d8daf",
+        "hook_event_name": "SessionEnd",
+        "reason": "prompt_input_exit"
+      }
+    }
+  ]
+}

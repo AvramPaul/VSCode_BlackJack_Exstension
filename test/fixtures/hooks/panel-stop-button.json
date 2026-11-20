@@ -1,0 +1,81 @@
+{
+  "description": "Panel: new tab (SessionStart at tab open), prompt, Stop button after ~28 s (transcript marker, registry idle, no Stop hook).",
+  "source": "panel",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "ddd5efee-3290-49b8-b4af-cf8bb2571712",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\ddd5efee-3290-49b8-b4af-cf8bb2571712.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\ddd5efee-3290-49b8-b4af-cf8bb2571712\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup"
+      }
+    },
+    {
+      "t": 21462,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "ddd5efee-3290-49b8-b4af-cf8bb2571712",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\ddd5efee-3290-49b8-b4af-cf8bb2571712.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\ddd5efee-3290-49b8-b4af-cf8bb2571712\\scratchpad",
+        "prompt_id": "0388a179-eca1-47e7-8c71-1c021ca03a03",
+        "permission_mode": "acceptEdits",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 31349,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "ddd5efee-3290-49b8-b4af-cf8bb2571712",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\ddd5efee-3290-49b8-b4af-cf8bb2571712.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\ddd5efee-3290-49b8-b4af-cf8bb2571712\\scratchpad",
+        "prompt_id": "0388a179-eca1-47e7-8c71-1c021ca03a03",
+        "permission_mode": "acceptEdits",
+        "effort": {
+          "level": "xhigh"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "Skill",
+        "tool_input": {
+          "skill": "anthropic-skills:docs",
+          "args": "<args>"
+        },
+        "tool_use_id": "toolu_01EtucuXcNsZqWK8dqNvdsLo"
+      }
+    },
+    {
+      "t": 31448,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "ddd5efee-3290-49b8-b4af-cf8bb2571712",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\c--Users-me-Desktop-vs-extension\\ddd5efee-3290-49b8-b4af-cf8bb2571712.jsonl",
+        "cwd": "c:\\Users\\me\\Desktop\\vs_extension",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\f2b49c84b94533b0\\ddd5efee-3290-49b8-b4af-cf8bb2571712\\scratchpad",
+        "prompt_id": "0388a179-eca1-47e7-8c71-1c021ca03a03",
+        "permission_mode": "acceptEdits",
+        "effort": {
+          "level": "xhigh"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "Skill",
+        "tool_input": {
+          "skill": "anthropic-skills:docs",
+          "args": "<args>"
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_01EtucuXcNsZqWK8dqNvdsLo",
+        "duration_ms": 15
+      }
+    }
+  ]
+}

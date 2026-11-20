@@ -1,0 +1,221 @@
+{
+  "description": "CLI: AskUserQuestion fires PreToolUse, PermissionRequest and Notification(permission_prompt); answered; Stop.",
+  "source": "cli",
+  "claudeCode": "2.1.328",
+  "platform": "win32",
+  "recordedAt": "2026-11-19",
+  "events": [
+    {
+      "t": 0,
+      "event": "SessionStart",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "hook_event_name": "SessionStart",
+        "source": "startup",
+        "model": "claude-haiku-5-5"
+      }
+    },
+    {
+      "t": 3941,
+      "event": "UserPromptSubmit",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "hook_event_name": "UserPromptSubmit",
+        "prompt": "<prompt>"
+      }
+    },
+    {
+      "t": 5099,
+      "event": "PreToolUse",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PreToolUse",
+        "tool_name": "AskUserQuestion",
+        "tool_input": {
+          "questions": [
+            {
+              "question": "Which color do you prefer?",
+              "header": "Color",
+              "options": [
+                {
+                  "label": "Red",
+                  "description": "Choose red"
+                },
+                {
+                  "label": "Blue",
+                  "description": "Choose blue"
+                }
+              ],
+              "multiSelect": false
+            }
+          ]
+        },
+        "tool_use_id": "toolu_01G3yxiVdfW9YNZ1dh3xePkZ"
+      }
+    },
+    {
+      "t": 5226,
+      "event": "PermissionRequest",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PermissionRequest",
+        "tool_name": "AskUserQuestion",
+        "tool_input": {
+          "questions": [
+            {
+              "question": "Which color do you prefer?",
+              "header": "Color",
+              "options": [
+                {
+                  "label": "Red",
+                  "description": "Choose red"
+                },
+                {
+                  "label": "Blue",
+                  "description": "Choose blue"
+                }
+              ],
+              "multiSelect": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "t": 11253,
+      "event": "Notification",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "hook_event_name": "Notification",
+        "message": "Claude needs your permission",
+        "notification_type": "permission_prompt"
+      }
+    },
+    {
+      "t": 13321,
+      "event": "PostToolUse",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "PostToolUse",
+        "tool_name": "AskUserQuestion",
+        "tool_input": {
+          "questions": [
+            {
+              "question": "Which color do you prefer?",
+              "header": "Color",
+              "options": [
+                {
+                  "label": "Red",
+                  "description": "Choose red"
+                },
+                {
+                  "label": "Blue",
+                  "description": "Choose blue"
+                }
+              ],
+              "multiSelect": false
+            }
+          ],
+          "answers": {
+            "Which color do you prefer?": "Red"
+          },
+          "annotations": {}
+        },
+        "tool_response": {},
+        "tool_use_id": "toolu_01G3yxiVdfW9YNZ1dh3xePkZ",
+        "duration_ms": 1
+      }
+    },
+    {
+      "t": 14006,
+      "event": "Stop",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "Stop",
+        "stop_hook_active": false,
+        "last_assistant_message": "<assistant message>",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 14704,
+      "event": "SubagentStop",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "permission_mode": "default",
+        "agent_id": "a8b6e1ebf45574754",
+        "agent_type": "",
+        "effort": {
+          "level": "medium"
+        },
+        "hook_event_name": "SubagentStop",
+        "stop_hook_active": false,
+        "agent_transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\subagents\\agent-a8b6e1ebf45574754.jsonl",
+        "background_tasks": [],
+        "session_crons": []
+      }
+    },
+    {
+      "t": 15227,
+      "event": "SessionEnd",
+      "payload": {
+        "session_id": "0a885583-6f7c-42a2-8ddc-799ed4ade5c4",
+        "transcript_path": "C:\\Users\\me\\.claude\\projects\\C--Users-me-Desktop-vs-extension-spike-ws\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4.jsonl",
+        "cwd": "C:\\Users\\me\\Desktop\\vs_extension\\spike\\ws",
+        "scratchpad_dir": "C:\\Users\\me\\AppData\\Local\\Temp\\claude\\2ab1a9fcf50c1ede\\0a885583-6f7c-42a2-8ddc-799ed4ade5c4\\scratchpad",
+        "prompt_id": "416dadd3-a06a-4e7c-a96f-9b5cfad3ccf5",
+        "hook_event_name": "SessionEnd",
+        "reason": "prompt_input_exit"
+      }
+    }
+  ]
+}
