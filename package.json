@@ -1,10 +1,27 @@
 {
   "name": "devjack",
   "displayName": "DevJack",
-  "description": "A Blackjack table that opens beside the editor while Claude Code works, and closes when it is done.",
+  "description": "Blackjack beside your editor while Claude Code works: the table opens when Claude starts on a prompt and closes when it is done. Works with the Claude Code extension and the claude CLI.",
   "version": "0.1.0",
-  "publisher": "todo-publisher",
+  "publisher": "PaulAvram",
   "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0c4a2f",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "keywords": [
+    "claude code",
+    "claude",
+    "blackjack",
+    "game",
+    "cards",
+    "break",
+    "waiting",
+    "ai",
+    "agent"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/AvramPaul/VSCode_BlackJack_Exstension.git"
@@ -156,6 +173,7 @@
     "@vscode/vsce": "^4.1.1",
     "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
+    "ovsx": "^1.4.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.73.0",
     "vitest": "^5.1.1"

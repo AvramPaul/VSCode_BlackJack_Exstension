@@ -690,7 +690,8 @@ export class App {
       case 'roundOver':
         v.bankroll = e.bankroll;
         this.renderHud();
-        this.flash(e.net > 0 ? `You win ${fmt(e.net)}` : e.net < 0 ? `You lose ${fmt(-e.net)}` : 'Push', 1300);
+        // One hand: its badge ("Win +25") already says it. After a split, sum the hands up.
+        if (v.hands.length > 1) this.flash(e.net > 0 ? `You win ${fmt(e.net)}` : e.net < 0 ? `You lose ${fmt(-e.net)}` : 'Push', 1300);
         break;
       case 'rebuy':
         v.bankroll = e.bankroll;

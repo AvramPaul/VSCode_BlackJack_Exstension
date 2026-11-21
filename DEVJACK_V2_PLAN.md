@@ -611,17 +611,26 @@ devjack/
 
 ### 10.1 Accounts (once)
 
+Re-checked 2026-11-21. ✅ **Azure DevOps retires global Personal Access Tokens on 1 December 2026**, so the Marketplace no longer uses a PAT. Both stores now support **Trusted Publishing**: the release workflow proves its identity to the store with GitHub's OIDC token, and no secret is stored.
+
 **VS Code Marketplace**
-1. Create a publisher at marketplace.visualstudio.com/manage.
-2. Create an Azure DevOps Personal Access Token with the scope **Marketplace → Manage** and the organization set to "All accessible organizations".
-3. Run `npx @vscode/vsce login <publisher>`.
+1. Create a publisher at marketplace.visualstudio.com/manage. Its ID can't be changed later.
+2. In that publisher, open **Trusted Publishing** and create a policy:
+   - repository owner `AvramPaul`;
+   - repository `VSCode_BlackJack_Exstension`;
+   - workflow `release.yml`;
+   - no environment.
+3. Put the publisher ID in `package.json` → `publisher`. Nothing else is needed: `vsce publish --oidc` runs in the workflow.
 
-**Open VSX** (used by Cursor, Windsurf and VSCodium)
-1. Create an Eclipse Foundation account.
-2. Sign the publisher agreement and create a token.
-3. Run `npx ovsx create-namespace <publisher>`.
+**Open VSX** (used by Cursor, Windsurf and VSCodium). **Deferred** (decision 2026-11-21): the first releases go to the VS Code Marketplace only. The release workflow skips Open VSX until the steps below are done, and Cursor, Windsurf and VSCodium users install the VSIX from the GitHub Release.
+1. Create an Eclipse Foundation account, entering the same GitHub user name.
+2. Log in to open-vsx.org with GitHub, link the Eclipse account (Settings → Profile), and sign the Publisher Agreement.
+3. Create an access token (Settings → Access Tokens). Run `npx ovsx create-namespace <publisher> -p <token>` once, and store the token as the repository secret `OVSX_PAT`.
+4. After the first published version, two more steps remove the token:
+   - claim **ownership** of the namespace ([Namespace Access](https://github.com/eclipse/openvsx/wiki/Namespace-Access));
+   - register a **Trusted Publisher** (Settings → Trusted Publishers): owner, repository and `release.yml`, as above.
 
-Re-check both sites' current steps when you get to this phase; they change.
+   Then delete the `OVSX_PAT` secret: `ovsx` falls back to OIDC by itself. A token always takes precedence while it exists.
 
 ### 10.2 Manifest checklist (`package.json`)
 
@@ -660,18 +669,23 @@ Images in the README must be https URLs or repository-relative paths.
 
 - **Version numbers:** pre-releases use odd minor versions with `vsce publish --pre-release` (0.1.x). Stable releases use even minor versions (0.2.x).
 - **CI:** build, lint and test on all 3 OSes, and attach the packaged VSIX as an artifact.
-- **Release workflow:** pushing a `v*` tag publishes the same VSIX to both stores, using the `VSCE_PAT` and `OVSX_PAT` secrets.
+- **Release workflow** (`.github/workflows/release.yml`): pushing a tag `vX.Y.Z` runs these steps:
+  1. `scripts/release-check.mjs`: the tag must equal the version, the publisher must not be the placeholder, and the CHANGELOG must have a section for the version;
+  2. typecheck, lint and unit tests;
+  3. packaging one VSIX (`--pre-release` for an odd minor);
+  4. publishing that same VSIX to the Marketplace (`vsce publish --oidc`) and to Open VSX (`ovsx publish`). Open VSX runs only if the `OVSX_PAT` secret exists or the repository variable `OPENVSX_TRUSTED_PUBLISHING` is `true`; otherwise it is skipped with a notice;
+  5. creating a GitHub Release with the VSIX attached and the CHANGELOG section as notes.
 - **After every release:** install from the Marketplace in a clean Windows Sandbox and run §13 items 1–3.
 
 ---
 
 ## 11. Phases
 
-- [ ] **Phase 0: clean slate** (2026-11-19; the publisher id is deferred to Phase 6 by decision)
+- [x] **Phase 0: clean slate** (2026-11-19; publisher id chosen 2026-11-21)
   - [x] Remove v1's hooks from `~/.claude/settings.json`: the 5 entries whose command contains `devjack-hook.cjs`, under `Stop`, `UserPromptSubmit`, `PostToolUse`, `Notification` and `SessionEnd`. *Already gone when Phase 0 started (an earlier session removed them). Verified: the only hook left is the user's own `ntfy.sh` `Stop` hook.*
   - [x] Delete `~/.devjack`. Look at `settings.json.devjack-backup`, then delete or rename it. Never restore it: it is stale. *`~/.devjack` was already absent. The backup (Nov 18, older permissions, no DevJack hooks) was renamed to `settings.json.devjack-v1-backup-STALE`.*
   - [x] Run `git init`, add a `.gitignore` and create a GitHub repo. The Marketplace links and CI need it. *Public repo [AvramPaul/VSCode_BlackJack_Exstension](https://github.com/AvramPaul/VSCode_BlackJack_Exstension), pushed 2026-11-20: `main` and `phases-0-3` at the Phase 4 commit.*
-  - [ ] Pick the extension name and publisher id. Check the Marketplace and Open VSX for name conflicts. *Name `devjack` / "DevJack" is free on both stores (checked 2026-11-19). Publisher id: decide later; it must exist on both stores before Phase 6.*
+  - [x] Pick the extension name and publisher id. Check the Marketplace and Open VSX for name conflicts. *Name `devjack` / "DevJack" is free on both stores (checked 2026-11-19). Publisher id **`PaulAvram`** (2026-11-21): the extension id is `PaulAvram.devjack`. The Open VSX namespace must use the same name.*
 - [x] **Phase 1: spike** (§6), 2026-11-19
   - [x] No product code in this phase. *Throwaway tools in `spike/` (gitignored).*
   - [x] Fill in §12, and update §3–§5 if any answer contradicts them. *Updated §3, §4, §5.1–§5.3, §5.5–§5.8, §5.10.*
@@ -749,8 +763,15 @@ Images in the README must be https URLs or repository-relative paths.
     - *Table idle (headless Chrome, 10 s): **no** timer or animation-frame callbacks and no running animations. While Claude works, the elapsed time ticks once a second; while Claude waits, the amber pulse runs. Both are by design.*
     - *How to rerun: `npm run perf`, and `DEVJACK_PERF=1 npm run test:integration` for the in-VS Code part.*
 - [ ] **Phase 6: publish** (§10)
-  - [ ] Icon, screenshots, GIF, README, CHANGELOG, CI.
+  - [x] Icon, screenshots, GIF, README, CHANGELOG, CI. *2026-11-21:*
+    - *`media/icon.png` is rendered from `media/icon.svg`.*
+    - *The 4 screenshots and the 20 s `media/demo.gif` are recorded from the real game in the harness (`scripts/render-assets.mjs`).*
+    - *The README follows §10.3, and there's a CHANGELOG, an MIT LICENSE, the manifest listing fields, and a `.vscodeignore` allowlist. The store VSIX is 12 files, 110 KB; its README images point to GitHub.*
+    - *CI runs on 3 OSes, and the release workflow is in place (§10.4).*
   - [ ] A pre-release first, then a stable release.
+    - *Publisher `PaulAvram` is set, and the store is the VS Code Marketplace only; Open VSX is deferred (§10.1).*
+    - *Before tagging: the Marketplace Trusted Publishing policy (§10.1).*
+    - *Then tag `v0.1.0` (pre-release), check it in a clean Sandbox installed from the Marketplace (§13 items 1–3), and later tag `v0.2.0` (stable).*
 
 ---
 

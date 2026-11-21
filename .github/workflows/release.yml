@@ -1,0 +1,70 @@
+# Release (plan §10.4): pushing a tag vX.Y.Z publishes the same VSIX to the VS Code Marketplace and
+# Open VSX, and attaches it to a GitHub Release. Odd minor = pre-release (0.1.x), even = stable (0.2.x).
+#
+# Authentication, no long-lived secrets where possible:
+# - VS Code Marketplace: Trusted Publishing (OIDC). The publisher has a Trusted Publishing policy for
+#   this repository and this file (release.yml), no environment.
+# - Open VSX (optional; off for now): runs only when the repository secret OVSX_PAT exists (needed for
+#   the first version), or when the repository variable OPENVSX_TRUSTED_PUBLISHING is 'true' (after a
+#   Trusted Publisher is registered on open-vsx.org and the secret is deleted). Otherwise it is skipped.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # OIDC for Trusted Publishing
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Secrets can't be tested in `if:` directly; an empty value means "not configured".
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check the tag, the version and the publisher
+        id: check
+        run: node scripts/release-check.mjs "$GITHUB_REF_NAME"
+
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+
+      - name: Package the VSIX
+        run: npx vsce package --no-dependencies ${{ steps.check.outputs.flag }} -o devjack-${{ steps.check.outputs.version }}.vsix
+
+      - name: Publish to the VS Code Marketplace (Trusted Publishing)
+        run: npx vsce publish --oidc --packagePath devjack-${{ steps.check.outputs.version }}.vsix ${{ steps.check.outputs.flag }}
+
+      - name: Publish to Open VSX (only when configured)
+        if: env.OVSX_PAT != '' || vars.OPENVSX_TRUSTED_PUBLISHING == 'true'
+        run: npx ovsx publish devjack-${{ steps.check.outputs.version }}.vsix ${{ steps.check.outputs.flag }}
+
+      - name: Open VSX not configured
+        if: env.OVSX_PAT == '' && vars.OPENVSX_TRUSTED_PUBLISHING != 'true'
+        run: echo "::notice::Skipped Open VSX (no OVSX_PAT secret, no OPENVSX_TRUSTED_PUBLISHING variable). Cursor, Windsurf and VSCodium users can install the VSIX from the GitHub Release."
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME" devjack-${{ steps.check.outputs.version }}.vsix
+          --title "DevJack ${{ steps.check.outputs.version }}"
+          --notes-file release-notes.md
+          ${{ steps.check.outputs.pre == 'true' && '--prerelease' || '' }}

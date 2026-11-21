@@ -20,6 +20,8 @@ function run(s: GameState, ...actions: Action[]): GameState {
 
 const SCENARIOS: Record<string, () => GameState> = {
   betting: () => newGame(),
+  // Demo GIF (scripts/render-assets.mjs): 12 vs 7, hit 8 → 20, dealer 17: win. Then 16 vs 9, stand, dealer 15 + K: bust.
+  demo: () => stacked(['9S', '7H', '3D', 'KC', '8S', 'TS', '9H', '6D', '6C', 'KH']),
   midhand: () => run(stacked(['9S', 'KH', '7D', '6C']), { type: 'deal' }),
   soft: () => run(stacked(['AS', '8H', '5D', '9C']), { type: 'deal' }),
   insurance: () => run(stacked(['TS', 'AH', '8D', '7C']), { type: 'deal' }),
@@ -38,5 +40,6 @@ export function scenario(name: string): SavedGame | undefined {
   const make = SCENARIOS[name];
   if (!make) return undefined;
   const params = new URLSearchParams(location.search);
-  return { v: 1, game: make(), ui: { felt: (params.get('felt') as 'green') || 'green', fourColor: params.has('four'), muted: true } };
+  // Muted in the interactive harness; unmuted (the button reads "Sound") in screenshots.
+  return { v: 1, game: make(), ui: { felt: (params.get('felt') as 'green') || 'green', fourColor: params.has('four'), muted: !params.has('bare') } };
 }

@@ -5,7 +5,9 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import type { DevJackApi } from '../../src/devjack';
 
-export const EXT_ID = 'todo-publisher.devjack';
+// publisher.name from package.json (this file is bundled to out/test/integration/).
+const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../package.json'), 'utf8')) as { publisher: string; name: string };
+export const EXT_ID = `${pkg.publisher}.${pkg.name}`;
 export const cfgDir = () => process.env.CLAUDE_CONFIG_DIR!;
 export const settingsPath = () => path.join(cfgDir(), 'settings.json');
 export const workspace = () => vscode.workspace.workspaceFolders![0]!.uri.fsPath;

@@ -69,4 +69,5 @@ body.bare #stage {
 }
 body.bare #frame {
   border: 0;
+  resize: none;
 }

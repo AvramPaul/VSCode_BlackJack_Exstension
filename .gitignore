@@ -23,3 +23,6 @@ Thumbs.db
 
 # dev harness build output
 webview/dev/build/
+
+# release workflow output
+release-notes.md

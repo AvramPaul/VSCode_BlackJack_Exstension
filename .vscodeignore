@@ -1,10 +1,12 @@
 # Allowlist: ship only what runs (plan §10.2). Everything else is excluded.
+# README images (demo.gif, screenshots) are not packaged: vsce links them to the GitHub repository.
 **
 !dist/extension.js
 !dist/uninstall.js
 !dist/webview/main.js
 !dist/webview/main.css
-!media/**
+!media/icon.png
+!media/tab-icon.svg
 !package.json
 !README.md
 !CHANGELOG.md

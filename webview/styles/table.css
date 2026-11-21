@@ -309,7 +309,8 @@ body {
 .message {
   position: absolute;
   z-index: 2;
-  top: 47%;
+  /* Between the dealer and the player's cards (over the felt print), not on top of the hand. */
+  top: max(calc(14px + var(--card-h) + 52px), 36%);
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 7px 16px;

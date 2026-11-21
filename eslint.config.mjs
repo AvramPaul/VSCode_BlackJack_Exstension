@@ -17,7 +17,8 @@ export default tseslint.config(
   },
   {
     files: ['scripts/**/*.mjs'],
-    languageOptions: { globals: { process: 'readonly', console: 'readonly' } },
+    // Node scripts; render-assets.mjs also passes callbacks into the browser page (window).
+    languageOptions: { globals: { process: 'readonly', console: 'readonly', setTimeout: 'readonly', Buffer: 'readonly', window: 'readonly' } },
     rules: { 'no-console': 'off' },
   },
 );
