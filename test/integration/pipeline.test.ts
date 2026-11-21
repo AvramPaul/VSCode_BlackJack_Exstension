@@ -22,6 +22,10 @@ suite('DevJack pipeline (Phase 2)', function () {
     await until('idle between tests', () => api.windowState().state === 'idle' && !api.isTableOpen(), 10000);
   });
 
+  test('activate() reports its own duration', () => {
+    assert.ok(typeof api.activationMs === 'number' && api.activationMs > 0);
+  });
+
   test('auto-connect wrote current hooks into the Claude config dir', () => {
     const text = fs.readFileSync(settingsPath(), 'utf8');
     assert.ok(text.includes('"UserPromptSubmit"') && text.includes('"PermissionRequest"'));

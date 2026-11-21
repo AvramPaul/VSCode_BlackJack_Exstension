@@ -12,7 +12,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['test/**/*.ts'],
+    files: ['test/**/*.ts', 'scripts/**/*.ts'],
     rules: { 'no-console': 'off' },
   },
   {

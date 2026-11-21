@@ -35,6 +35,8 @@ type ConnStatus = { status: string; result?: ApplyResult };
 
 export interface DevJackApi {
   windowId: string;
+  /** Time spent in activate() (set by extension.ts). */
+  activationMs?: number;
   devjackHome: string;
   windowState(): WindowStateInfo;
   isTableOpen(): boolean;

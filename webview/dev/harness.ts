@@ -1,4 +1,5 @@
-/** Harness entry: mock first, then the real webview app, then the debug bar. */
+/** Harness entry: idle instrumentation and mock first, then the real webview app, then the debug bar. */
+import './idlecheck';
 import { harness } from './mock';
 import '../main';
 import { setForceReducedMotion } from '../ui/motion';

@@ -710,8 +710,8 @@ Images in the README must be https URLs or repository-relative paths.
     - *`dist/webview` loaded through `asWebviewUri` under the strict CSP. The integration test checks that the game says `ready`.*
     - *The game is saved to `globalState` after every action, `handState` drives close-after-hand, and the sound setting is pushed live.*
   - *Found and fixed: the timeline waited on animation frames, which can stall in a hidden document. Every animation now has a timer fallback.*
-- [ ] **Phase 5: hardening**
-  - [ ] Run the §13 checks on Windows Sandbox, on macOS and Linux (CI, plus one manual run if possible), on a WSL remote and in Cursor.
+- [x] **Phase 5: hardening**, 2026-11-21 (manual Mac run skipped by decision; CI covers macOS)
+  - [x] Run the §13 checks on Windows Sandbox, on macOS and Linux (CI, plus one manual run if possible), on a WSL remote and in Cursor.
     - **Windows Sandbox, 2026-11-20: works as intended** (user's verdict and DevJack's log).
       - *The kit is `.dev/sandbox/devjack.wsb`. Its setup script installs VS Code, Claude Code and the Claude extension; DevJack is installed from the VSIX by hand.*
       - *A clean machine: no Node, no Git, no Git Bash. Claude Code 2.1.329 native, VS Code 1.147.*
@@ -729,7 +729,25 @@ Images in the README must be https URLs or repository-relative paths.
       - *Fixed afterwards:*
         - *focus for a terminal session whose start DevJack never saw now goes to the active terminal;*
         - *the registry no longer warns about a new session's file before it has a status.*
-  - [ ] Performance: about zero CPU when idle, and under 50 ms of work at activation.
+    - **CI, 2026-11-20 (run 44765704425): green on ubuntu, macos and windows** on the first run.
+      - *Each OS ran typecheck, lint, build, the 166 unit tests (including the real hook command: PowerShell exec form, BSD sh, dash) and the integration tests in VS Code 1.94.0. This covers the automated part of macOS and Linux.*
+      - *The packaged VSIX is attached to the run.*
+    - **Cursor, 2026-11-21 (Windows, VSIX installed from file): works** (user's test).
+      - *The table opened while Claude was thinking and closed when it was done.*
+      - *A real permission prompt showed "Claude needs you", which closes the Sandbox gap for §13 item 3.*
+      - *The automatic connect edited the user's real `~/.claude/settings.json` correctly: the user's own `Stop` hook stayed first, a one-time backup was made, and without DevJack's entries the file is identical to the backup.*
+    - **WSL remote, 2026-11-21 (Ubuntu, Claude Code 2.1.330 native, DevJack installed on the WSL side): works** (user's test).
+      - *Auto-connect wrote the 7 POSIX sh entries into WSL's `~/.claude/settings.json`.*
+      - *The table opened and closed for `claude` in the WSL terminal, including "Claude needs you" and Esc.*
+      - *The self-test delivered an event in 22 ms (sh), against about 200 ms for PowerShell on Windows.*
+    - *A manual run on a Mac: skipped by the user's decision (2026-11-21). CI covers the automated part.*
+  - [x] Performance: about zero CPU when idle, and under 50 ms of work at activation. *2026-11-21, production bundle, Windows:*
+    - *`activate()` takes **21.2 ms** in VS Code 1.94.0 (DevJack logs it as "activated in … ms").*
+    - *Loading the 68 KB bundle takes 12 ms median in a fresh Node process, an upper bound because VS Code already has Node's built-in modules loaded.*
+    - *Idle CPU of the whole extension host, measured over 30 s: **0.16 %**, and **0.21 %** with the table open.*
+    - *DevJack's own idle polling (inbox and registry every second, heartbeat every 30 s): **0.023 %** of one core.*
+    - *Table idle (headless Chrome, 10 s): **no** timer or animation-frame callbacks and no running animations. While Claude works, the elapsed time ticks once a second; while Claude waits, the amber pulse runs. Both are by design.*
+    - *How to rerun: `npm run perf`, and `DEVJACK_PERF=1 npm run test:integration` for the in-VS Code part.*
 - [ ] **Phase 6: publish** (§10)
   - [ ] Icon, screenshots, GIF, README, CHANGELOG, CI.
   - [ ] A pre-release first, then a stable release.

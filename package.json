@@ -140,7 +140,8 @@
     "build:harness": "node esbuild.mjs --harness",
     "shots": "node scripts/screenshots.mjs",
     "vscode:prepublish": "node esbuild.mjs --production",
-    "package": "vsce package --no-dependencies --skip-license"
+    "package": "vsce package --no-dependencies --skip-license",
+    "perf": "node scripts/perf.mjs"
   },
   "dependencies": {
     "jsonc-parser": "^3.3.1"

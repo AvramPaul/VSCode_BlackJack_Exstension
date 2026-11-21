@@ -41,7 +41,7 @@ const builds = [
   { ...node, entryPoints: ['src/uninstall.ts'], outfile: 'dist/uninstall.js' },
   { ...browser, entryPoints: ['webview/main.ts'], outfile: 'dist/webview/main.js' },
 ];
-if (!production) builds.push({ ...node, entryPoints: ['test/integration/behavior.test.ts', 'test/integration/pipeline.test.ts'], outdir: 'out/test/integration', external: ['vscode', 'mocha'] });
+if (!production) builds.push({ ...node, entryPoints: ['test/integration/behavior.test.ts', 'test/integration/pipeline.test.ts', 'test/integration/perf.test.ts'], outdir: 'out/test/integration', external: ['vscode', 'mocha'] });
 if (harness) builds.push({ ...browser, entryPoints: ['webview/dev/harness.ts'], outfile: 'webview/dev/build/harness.js', sourcemap: true });
 
 if (watch || serve) {

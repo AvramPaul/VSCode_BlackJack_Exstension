@@ -3,6 +3,7 @@ import { DevJack, type DevJackApi } from './devjack';
 import { Log } from './log';
 
 export function activate(context: vscode.ExtensionContext): DevJackApi {
+  const t0 = performance.now();
   const log = new Log();
   const dj = new DevJack(context, log);
   context.subscriptions.push(
@@ -20,7 +21,10 @@ export function activate(context: vscode.ExtensionContext): DevJackApi {
     vscode.commands.registerCommand('devjack.showLog', () => log.show()),
   );
   dj.start();
-  return dj.api();
+  // Plan §11 Phase 5: under 50 ms of work at activation (the connect check after it runs async).
+  const ms = performance.now() - t0;
+  log.info(`activated in ${ms.toFixed(1)} ms`);
+  return { ...dj.api(), activationMs: ms };
 }
 
 export function deactivate(): void {
